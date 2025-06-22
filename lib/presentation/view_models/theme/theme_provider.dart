@@ -2,30 +2,38 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies/core/enums/theme_enums.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final themeProvider = StateNotifierProvider<ThemeProvider, ThemeEnums>(
+import 'theme_state.dart';
+
+final themeProvider = StateNotifierProvider<ThemeProvider, ThemeState>(
   (_) => ThemeProvider(),
 );
 
-class ThemeProvider extends StateNotifier<ThemeEnums> {
+class ThemeProvider extends StateNotifier<ThemeState> {
   final prefsKey = "isDarkMode";
-  ThemeProvider() : super(ThemeEnums.dark) {
+  final themeColorKey = "themeColor";
+
+  ThemeProvider() : super(ThemeState()) {
     _loadTheme();
   }
 
   Future<void> _loadTheme() async {
     final prefs = await SharedPreferences.getInstance();
     final isDarkMode = prefs.getBool(prefsKey) ?? true;
-    state = isDarkMode ? ThemeEnums.dark : ThemeEnums.light;
+    final themeColorString = prefs.getString(themeColorKey) ?? "deepOrange";
+    final themeColor = ThemeColorEnumExtension.fromString(themeColorString);
+    state = state.copyWith(isDarkMode: isDarkMode, themeColor: themeColor);
   }
 
   Future<void> toggleTheme() async {
     final prefs = await SharedPreferences.getInstance();
-    if (state == ThemeEnums.light) {
-      state = ThemeEnums.dark;
-      await prefs.setBool(prefsKey, true);
-    } else {
-      state = ThemeEnums.light;
-      await prefs.setBool(prefsKey, false);
-    }
+    final newMode = !state.isDarkMode;
+    state = state.copyWith(isDarkMode: newMode);
+    await prefs.setBool(prefsKey, newMode);
+  }
+
+  Future<void> changeThemeColor(ThemeColorEnum color) async {
+    final prefs = await SharedPreferences.getInstance();
+    state = state.copyWith(themeColor: color);
+    await prefs.setString(themeColorKey, color.value);
   }
 }

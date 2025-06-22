@@ -1,58 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:movies/presentation/views/movies/movies_tab_screen.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies/core/constants/app_theme_data.dart';
+import 'package:movies/core/enums/theme_enums.dart';
+import 'package:movies/presentation/view_models/theme/theme_provider.dart';
+import 'package:movies/presentation/views/movies/widgets/movies_tab_screen/movies_tab_screen.dart';
 
 void main() {
-  runApp(
-    MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: MoviesTabScreen(),
-    ),
-  );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+class MyApp extends ConsumerWidget {
+  const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('Many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeState = ref.watch(themeProvider);
+    final themeColor = themeState.themeColor;
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: themeState.isDarkMode
+          ? const SystemUiOverlayStyle(
+              statusBarIconBrightness: Brightness.light,
+              statusBarBrightness: Brightness.dark,
+            )
+          : const SystemUiOverlayStyle(
+              statusBarIconBrightness: Brightness.dark,
+              statusBarBrightness: Brightness.light,
             ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Movies App',
+        theme: themeState.isDarkMode
+            ? AppThemeData.darkTheme(themeColor.toColor())
+            : AppThemeData.lightTheme(themeColor.toColor()),
+        home: const MoviesTabScreen(),
       ),
     );
   }
