@@ -90,6 +90,17 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  #
+  fonts:
+    - family: Doto
+      fonts:
+        - asset: assets/fonts/Doto_Rounded-Bold.ttf
+    - family: DotoRounded
+      fonts:
+        - asset: assets/fonts/Doto_Rounded-Regular.ttf
+    - family: Sansation
+      fonts:
+        - asset: assets/fonts/Sansation-Regular.ttf
+        - asset: assets/fonts/Sansation-Bold.ttf
+          weight: 700
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
