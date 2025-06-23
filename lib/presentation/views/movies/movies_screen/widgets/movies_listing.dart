@@ -1,10 +1,9 @@
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/data/models/movie.dart';
+import 'package:movies/presentation/views/movies/widgets/movie_card.dart';
 import 'package:movies/presentation/widgets/base_carousel.dart';
 import 'package:movies/presentation/widgets/text.dart';
-
-import 'carousel_movie_card.dart';
 
 class MoviesListing extends StatelessWidget {
   final dynamic title;
@@ -44,7 +43,7 @@ class MoviesListing extends StatelessWidget {
           items: movies.map((movie) {
             return Padding(
               padding: EdgeInsetsGeometry.symmetric(horizontal: 5),
-              child: CarouselMovieCard(movie: movie),
+              child: MovieCard(movie: movie),
             );
           }).toList(),
         ),

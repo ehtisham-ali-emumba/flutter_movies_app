@@ -2,8 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/presentation/widgets/base_carousel.dart';
 
+import '../widgets/movie_card.dart';
 import 'utils.dart';
-import 'widgets/carousel_movie_card.dart';
 import 'widgets/movies_listing.dart';
 
 class MoviesScreen extends StatefulWidget {
@@ -28,13 +28,13 @@ class _MoviesScreenState extends State<MoviesScreen> {
               BaseCarousel(
                 controller: _carouselController,
                 items: movies.map((movie) {
-                  return CarouselMovieCard(movie: movie);
+                  return MovieCard(movie: movie);
                 }).toList(),
               ),
               SizedBox(height: 20),
-              MoviesListing(title: "Popular Movies", movies: movies),
+              MoviesListing(title: "Popular Movies", movies: moviesHistory),
               SizedBox(height: 20),
-              MoviesListing(title: "Latest Movies", movies: movies),
+              MoviesListing(title: "Latest Movies", movies: moviesThriller),
             ],
           ),
         ),
