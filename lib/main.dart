@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies/core/constants/app_theme_data.dart';
 import 'package:movies/core/enums/theme_enums.dart';
@@ -7,7 +8,8 @@ import 'package:movies/presentation/view_models/theme/theme_provider.dart';
 
 import 'presentation/views/movies/movies_tab_screen/movies_tab_screen.dart';
 
-void main() {
+void main() async {
+  await dotenv.load();
   runApp(const ProviderScope(child: MyApp()));
 }
 

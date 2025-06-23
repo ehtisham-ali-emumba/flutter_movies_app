@@ -1,3 +1,5 @@
+import 'package:movies/core/constants/app_constants.dart';
+
 class Movie {
   final String id;
   final String title;
@@ -17,12 +19,14 @@ class Movie {
 
   factory Movie.fromJson(Map<String, dynamic> json) {
     return Movie(
-      id: json['id'],
+      id: json['id'].toString(),
       title: json['title'],
-      description: json['description'],
-      imageUrl: json['imageUrl'],
-      releaseDate: json['releaseDate'],
-      rating: (json['rating'] as num).toDouble(),
+      description: json['overview'],
+      imageUrl: json['backdrop_path'] != null
+          ? AppConstants.tMDBImageBaseUrl + json['backdrop_path']
+          : '',
+      releaseDate: json['release_date'],
+      rating: (json['vote_average'] as num).toDouble(),
     );
   }
 }
