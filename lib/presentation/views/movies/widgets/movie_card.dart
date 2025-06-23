@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movies/presentation/widgets/text.dart';
 
 class MovieCard extends StatelessWidget {
   final String posterUrl;
@@ -53,29 +54,26 @@ class MovieCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  AppText(title, kind: TextKind.body, fontSize: 20),
                   const SizedBox(height: 6),
                   Row(
                     children: [
                       Icon(Icons.star, color: Colors.amber, size: 20),
                       const SizedBox(width: 4),
-                      Text(
+                      AppText(
                         rating.toStringAsFixed(1),
-                        style: TextStyle(fontWeight: FontWeight.w600),
+                        kind: TextKind.caption,
+                        fontSize: 13,
                       ),
                     ],
                   ),
                   const SizedBox(height: 8),
-                  Text(
+                  AppText(
                     description,
+                    kind: TextKind.caption,
                     maxLines: 3,
+                    fontSize: 15,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),

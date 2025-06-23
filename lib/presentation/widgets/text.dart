@@ -31,7 +31,7 @@ class AppTextStyles {
     fontSize: 12,
     fontWeight: FontWeight.w400,
     fontFamily: 'Sansation',
-    color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+    color: Theme.of(context).colorScheme.onSurface,
   );
 
   static TextStyle primary(BuildContext context) => TextStyle(
