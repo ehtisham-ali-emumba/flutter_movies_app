@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies/core/enums/theme_enums.dart';
 import 'package:movies/presentation/view_models/theme/theme_provider.dart';
-import 'package:movies/presentation/views/movies/movies_screen.dart';
+import 'package:movies/presentation/views/movies/movies_screen/movies_screen.dart';
 import 'package:movies/presentation/views/movies/movies_search_screen.dart';
 import 'package:movies/presentation/widgets/text.dart';
 
