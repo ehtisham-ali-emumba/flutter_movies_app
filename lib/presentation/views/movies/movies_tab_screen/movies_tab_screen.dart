@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies/core/enums/theme_enums.dart';
 import 'package:movies/presentation/view_models/theme/theme_provider.dart';
+import 'package:movies/presentation/views/movies/favourite_movies_screen.dart';
 import 'package:movies/presentation/views/movies/movies_screen/movies_screen.dart';
 import 'package:movies/presentation/views/movies/movies_search/movies_search_screen.dart';
 import 'package:movies/presentation/widgets/text.dart';
@@ -55,7 +56,18 @@ PreferredSizeWidget appHeader(BuildContext context, WidgetRef ref) {
         },
       ),
       AppColorToggle(),
-      IconButton(icon: Icon(Icons.favorite_border), onPressed: () {}),
+      IconButton(
+        icon: Icon(Icons.favorite_border),
+        onPressed: () {
+          Navigator.of(context).push(
+            PageRouteBuilder(
+              pageBuilder: (_, __, ___) => FavouriteMoviesScreen(),
+              transitionDuration: Duration.zero,
+              reverseTransitionDuration: Duration.zero,
+            ),
+          );
+        },
+      ),
     ],
   );
 }

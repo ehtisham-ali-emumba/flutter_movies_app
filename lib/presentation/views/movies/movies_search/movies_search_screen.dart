@@ -1,52 +1,109 @@
 import 'package:flutter/material.dart';
+import 'package:movies/data/models/movie.dart';
 import 'package:movies/presentation/views/movies/movies_screen/utils.dart';
+import 'package:movies/presentation/views/movies/widgets/infinite_movies_list.dart';
 import 'package:movies/presentation/widgets/text.dart';
 
-import 'widgets/movies_list.dart';
-
-class MoviesSearchScreen extends StatelessWidget {
+class MoviesSearchScreen extends StatefulWidget {
   const MoviesSearchScreen({super.key});
+
+  @override
+  State<MoviesSearchScreen> createState() => _MoviesSearchScreenState();
+}
+
+class _MoviesSearchScreenState extends State<MoviesSearchScreen> {
+  List<Movie> displayedMovies = [];
+  bool isLoading = true;
+  bool hasMoreData = true;
+  int currentArrayIndex = 0;
+
+  // Your movie arrays
+  List<List<Movie>> movieArrays = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _setupMovieArrays();
+    _loadFirstBatch();
+  }
+
+  void _setupMovieArrays() {
+    movieArrays = [moviesThriller, moviesHistory];
+  }
+
+  _loadFirstBatch() async {
+    if (movieArrays.isNotEmpty) {
+      await Future.delayed(const Duration(seconds: 1));
+      setState(() {
+        displayedMovies = List.from(movieArrays[0]);
+        currentArrayIndex = 0;
+        hasMoreData = movieArrays.length > 1;
+        isLoading = false;
+      });
+    }
+  }
+
+  _loadMoreMovies() async {
+    if (isLoading || !hasMoreData) return;
+
+    setState(() {
+      isLoading = true;
+    });
+
+    // 2 second delay
+    await Future.delayed(const Duration(seconds: 1));
+
+    setState(() {
+      currentArrayIndex++;
+      if (currentArrayIndex < movieArrays.length) {
+        displayedMovies.addAll(movieArrays[currentArrayIndex]);
+        hasMoreData = currentArrayIndex < movieArrays.length - 1;
+      } else {
+        hasMoreData = false;
+      }
+      isLoading = false;
+    });
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const AppText("What'd you like to watch?", kind: TextKind.heading),
+          const SizedBox(height: 12),
+          TextField(
+            decoration: InputDecoration(
+              hintText: 'Search for movies...',
+              prefixIcon: Icon(
+                Icons.search,
+                color: Theme.of(context).primaryColor,
+                size: 28,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          commonSearchesChip(context),
+          const SizedBox(height: 24),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       top: false,
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppText("What'd you like to watch?", kind: TextKind.heading),
-                  SizedBox(height: 12),
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Search for movies...',
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: Theme.of(context).primaryColor,
-                        size: 28,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 12),
-                  commonSearchesChip(context),
-                  SizedBox(height: 24),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsetsGeometry.symmetric(horizontal: 20),
-              child: MoviesList(movies: movies),
-            ),
-          ],
-        ),
+      child: InfiniteMoviesList(
+        movies: displayedMovies,
+        onLoadMore: _loadMoreMovies,
+        isLoading: isLoading,
+        hasMoreData: hasMoreData,
+        header: _buildHeader(context),
       ),
     );
   }
@@ -62,7 +119,6 @@ Widget commonSearchesChip(BuildContext context) {
     "Sci-Fi",
     "Thriller",
     "Documentary",
-    "Animation", // 9th item, will be ignored
   ];
 
   return Padding(

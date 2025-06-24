@@ -75,7 +75,7 @@ final List<Movie> moviesHistory = [
     rating: 4.6,
   ),
   Movie(
-    id: "11",
+    id: "13",
     title: 'John Wick',
     imageUrl:
         "https://cdn.pixabay.com/photo/2017/03/12/13/41/john-wick-2139253_1280.jpg",
@@ -117,7 +117,7 @@ final List<Movie> moviesThriller = [
     rating: 4.9,
   ),
   Movie(
-    id: "10",
+    id: "11",
     title: 'Mad Max: Fury Road',
     imageUrl:
         "https://cdn.pixabay.com/photo/2017/03/27/14/56/cinema-2178756_1280.jpg",
