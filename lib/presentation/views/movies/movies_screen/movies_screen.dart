@@ -1,11 +1,9 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies/presentation/widgets/base_carousel.dart';
 
-import '../../../view_models/movies_carousel_provider.dart';
+import '../../../view_models/movies/movies_carousel_provider.dart';
 import '../widgets/movie_card.dart';
-import 'utils.dart';
 import 'widgets/movies_listing.dart';
 
 class MoviesScreen extends ConsumerWidget {
@@ -13,7 +11,9 @@ class MoviesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final carouselMoviesAsync = ref.watch(carouselMoviesProvider);
+    final carouselMoviesAsync = ref.watch(mainCarouselMoviesProvider);
+    final carouselActionMoviesAsync = ref.watch(actionMoviesProvider);
+    final carouselTopRatedMoviesAsync = ref.watch(topRatedMoviesProvider);
 
     return Scaffold(
       body: Scrollbar(
@@ -31,9 +31,19 @@ class MoviesScreen extends ConsumerWidget {
                 error: (e, _) => Center(child: Text('Failed to load movies')),
               ),
               SizedBox(height: 20),
-              MoviesListing(title: "Popular Movies", movies: moviesHistory),
+              carouselActionMoviesAsync.when(
+                data: (movies) =>
+                    MoviesListing(title: "Action Movies", movies: movies),
+                loading: () => Container(),
+                error: (e, _) => Center(child: Text('Failed to load movies')),
+              ),
               SizedBox(height: 20),
-              MoviesListing(title: "Latest Movies", movies: moviesThriller),
+              carouselTopRatedMoviesAsync.when(
+                data: (movies) =>
+                    MoviesListing(title: "Top Rated Movies", movies: movies),
+                loading: () => Container(),
+                error: (e, _) => Center(child: Text('Failed to load movies')),
+              ),
             ],
           ),
         ),

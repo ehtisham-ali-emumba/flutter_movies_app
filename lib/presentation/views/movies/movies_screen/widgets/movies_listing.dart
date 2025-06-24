@@ -22,12 +22,17 @@ class MoviesListing extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               AppText(
-                "Latest Movies",
+                title,
                 kind: TextKind.doToFamily,
                 fontWeight: FontWeight.w900,
+                color: Theme.of(context).colorScheme.primary,
                 fontSize: 22,
               ),
-              Icon(Icons.movie, size: 24),
+              Icon(
+                Icons.movie,
+                size: 24,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ],
           ),
         ),

@@ -1,9 +1,9 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/network/api_client.dart';
-import '../../data/models/movie.dart';
-import '../../data/repositories/movies_repository.dart';
+import '../../../core/network/api_client.dart';
+import '../../../data/models/movie.dart';
+import '../../../data/repositories/movies_repository.dart';
 
 final apiClientProvider = Provider<ApiClient>((ref) {
   return ApiClient(
@@ -17,7 +17,17 @@ final moviesRepositoryProvider = Provider<MoviesRepository>((ref) {
   return MoviesRepository(apiClient: apiClient);
 });
 
-final carouselMoviesProvider = FutureProvider<List<Movie>>((ref) async {
+final mainCarouselMoviesProvider = FutureProvider<List<Movie>>((ref) async {
   final repo = ref.watch(moviesRepositoryProvider);
   return repo.fetchPopularMovies();
+});
+
+final actionMoviesProvider = FutureProvider<List<Movie>>((ref) async {
+  final repo = ref.watch(moviesRepositoryProvider);
+  return repo.fetchActionMovies();
+});
+
+final topRatedMoviesProvider = FutureProvider<List<Movie>>((ref) async {
+  final repo = ref.watch(moviesRepositoryProvider);
+  return repo.fetchTopRatedMovies();
 });
