@@ -24,11 +24,11 @@ class MoviesTabScreen extends ConsumerWidget {
             appBar: appHeader(context, ref),
             bottomNavigationBar: TabBar(
               tabs: [
-                Tab(text: 'Search'),
                 Tab(text: 'Movies'),
+                Tab(text: 'Search'),
               ],
             ),
-            body: TabBarView(children: [MoviesSearchScreen(), MoviesScreen()]),
+            body: TabBarView(children: [MoviesScreen(), MoviesSearchScreen()]),
           ),
         ),
       ),
