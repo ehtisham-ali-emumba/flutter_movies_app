@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies/core/constants/app_constants.dart';
 import 'package:movies/data/models/movie.dart';
+import 'package:movies/presentation/view_models/movies/movies_favorite_provider.dart';
 import 'package:movies/presentation/widgets/text.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
@@ -76,48 +78,7 @@ class MovieDetailsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Movie poster and title section
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Movie poster thumbnail
-
-                        // Title and info section
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AppText(
-                              movie.title,
-                              kind: TextKind.heading,
-                              fontSize: 26,
-                            ),
-                            SizedBox(height: 8),
-                            Row(
-                              children: [
-                                AppText(
-                                  movie.releaseDate,
-                                  kind: TextKind.caption,
-                                ),
-                                _dot(),
-                                AppText('18+', kind: TextKind.caption),
-                                _dot(),
-                                AppText('TV Drama', kind: TextKind.caption),
-                              ],
-                            ),
-                            SizedBox(height: 12),
-                            Row(
-                              children: List.generate(
-                                5,
-                                (index) => Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                  size: 20,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                    movieDetails(),
                     SizedBox(height: 12),
                     AppText(movie.description, kind: TextKind.body),
                     SizedBox(height: 24),
@@ -155,6 +116,66 @@ class MovieDetailsScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget movieDetails() {
+    return Consumer(
+      builder: (context, ref, child) {
+        final isFavorite = ref
+            .watch(favoritesProvider)
+            .isFavoriteMovie(movie.id);
+
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AppText(
+                    movie.title,
+                    kind: TextKind.heading,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 8),
+                  Row(
+                    children: [
+                      AppText(movie.releaseDate, kind: TextKind.caption),
+                      _dot(),
+                      AppText('18+', kind: TextKind.caption),
+                      _dot(),
+                      AppText('TV Drama', kind: TextKind.caption),
+                    ],
+                  ),
+                  SizedBox(height: 12),
+                  Row(
+                    children: List.generate(
+                      5,
+                      (index) =>
+                          Icon(Icons.star, color: Colors.amber, size: 20),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              width: 50,
+              child: IconButton(
+                onPressed: () async {
+                  ref.read(favoritesProvider.notifier).toggleFavorite(movie);
+                },
+                icon: Icon(
+                  isFavorite ? Icons.favorite : Icons.favorite_outline,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 28,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 

@@ -1,33 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:movies/data/models/movie.dart';
-import 'package:movies/presentation/views/movies/movies_screen/utils.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies/presentation/view_models/movies/movies_favorite_provider.dart';
 import 'package:movies/presentation/views/movies/widgets/infinite_movies_list.dart';
 import 'package:movies/presentation/widgets/text.dart';
 
-class FavouriteMoviesScreen extends StatefulWidget {
+class FavouriteMoviesScreen extends ConsumerWidget {
   const FavouriteMoviesScreen({super.key});
-
-  @override
-  State<FavouriteMoviesScreen> createState() => _FavouriteMoviesScreenState();
-}
-
-class _FavouriteMoviesScreenState extends State<FavouriteMoviesScreen> {
-  List<Movie> displayedMovies = [];
-  bool isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadFirstBatch();
-  }
-
-  _loadFirstBatch() async {
-    await Future.delayed(const Duration(seconds: 1));
-    setState(() {
-      displayedMovies = [...moviesThriller, ...moviesHistory];
-      isLoading = false;
-    });
-  }
 
   Widget _buildHeader(BuildContext context) {
     return Column(
@@ -53,15 +31,44 @@ class _FavouriteMoviesScreenState extends State<FavouriteMoviesScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final favoriteMovies = ref.watch(favoritesProvider).favoriteMovies;
+    print("favoriteMovies count: ${favoriteMovies.length}");
+
     return Scaffold(
       body: SafeArea(
-        child: InfiniteMoviesList(
-          movies: displayedMovies,
-          isLoading: isLoading,
-          hasMoreData: false,
-          header: _buildHeader(context),
-        ),
+        child: favoriteMovies.isEmpty
+            ? Column(
+                children: [
+                  _buildHeader(context),
+                  const Expanded(
+                    child: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.favorite_border,
+                            size: 64,
+                            color: Colors.grey,
+                          ),
+                          SizedBox(height: 16),
+                          AppText(
+                            "No favorite movies yet",
+                            kind: TextKind.caption,
+                            fontSize: 16,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            : InfiniteMoviesList(
+                movies: favoriteMovies,
+                isLoading: false,
+                hasMoreData: false,
+                header: _buildHeader(context),
+              ),
       ),
     );
   }

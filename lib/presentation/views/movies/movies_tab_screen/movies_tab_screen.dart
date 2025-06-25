@@ -7,7 +7,7 @@ import 'package:movies/presentation/views/movies/movies_screen/movies_screen.dar
 import 'package:movies/presentation/views/movies/movies_search/movies_search_screen.dart';
 import 'package:movies/presentation/widgets/text.dart';
 
-import 'widgets/AppColorToggle.dart';
+import 'widgets/app_color_toggle.dart';
 
 class MoviesTabScreen extends ConsumerWidget {
   const MoviesTabScreen({super.key});
@@ -28,7 +28,7 @@ class MoviesTabScreen extends ConsumerWidget {
                 Tab(text: 'Search'),
               ],
             ),
-            body: TabBarView(children: [MoviesSearchScreen(), MoviesScreen()]),
+            body: TabBarView(children: [MoviesScreen(), MoviesSearchScreen()]),
           ),
         ),
       ),

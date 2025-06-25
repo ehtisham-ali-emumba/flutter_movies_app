@@ -26,6 +26,11 @@ class _MoviesSearchScreenState extends ConsumerState<MoviesSearchScreen> {
     ref.read(movieSearchProvider.notifier).loadMore();
   }
 
+  void setSearchFieldText(String text) {
+    _controller.text = text;
+    _onSearchChanged(text);
+  }
+
   @override
   void dispose() {
     _debouncer.dispose();
@@ -84,7 +89,7 @@ class _MoviesSearchScreenState extends ConsumerState<MoviesSearchScreen> {
             ),
           ),
           const SizedBox(height: 12),
-          commonSearchesChip(context, _onSearchChanged),
+          commonSearchesChip(context, setSearchFieldText),
           const SizedBox(height: 24),
         ],
       ),

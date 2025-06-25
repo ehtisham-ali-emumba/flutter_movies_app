@@ -29,4 +29,15 @@ class Movie {
       rating: (json['vote_average'] as num).toDouble(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'overview': description,
+      'backdrop_path': imageUrl.replaceFirst(AppConstants.tMDBImageBaseUrl, ''),
+      'release_date': releaseDate,
+      'vote_average': rating,
+    };
+  }
 }
