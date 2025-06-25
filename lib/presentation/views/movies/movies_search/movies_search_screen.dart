@@ -1,68 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:movies/data/models/movie.dart';
-import 'package:movies/presentation/views/movies/movies_screen/utils.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies/core/utils/input_utils.dart';
+import 'package:movies/presentation/view_models/movies/movie_search_provider.dart';
 import 'package:movies/presentation/views/movies/widgets/infinite_movies_list.dart';
 import 'package:movies/presentation/widgets/text.dart';
 
-class MoviesSearchScreen extends StatefulWidget {
+class MoviesSearchScreen extends ConsumerStatefulWidget {
   const MoviesSearchScreen({super.key});
 
   @override
-  State<MoviesSearchScreen> createState() => _MoviesSearchScreenState();
+  ConsumerState<MoviesSearchScreen> createState() => _MoviesSearchScreenState();
 }
 
-class _MoviesSearchScreenState extends State<MoviesSearchScreen> {
-  List<Movie> displayedMovies = [];
-  bool isLoading = true;
-  bool hasMoreData = true;
-  int currentArrayIndex = 0;
+class _MoviesSearchScreenState extends ConsumerState<MoviesSearchScreen> {
+  final TextEditingController _controller = TextEditingController();
+  final Debouncer _debouncer = Debouncer(milliseconds: 400);
 
-  // Your movie arrays
-  List<List<Movie>> movieArrays = [];
+  void _onSearchChanged(String value) {
+    _debouncer(value, (val) {
+      ref.read(movieSearchProvider.notifier).search(val);
+    });
+  }
+
+  void _onLoadMore() {
+    ref.read(movieSearchProvider.notifier).loadMore();
+  }
 
   @override
-  void initState() {
-    super.initState();
-    _setupMovieArrays();
-    _loadFirstBatch();
+  void dispose() {
+    _debouncer.dispose();
+    _controller.dispose();
+    super.dispose();
   }
 
-  void _setupMovieArrays() {
-    movieArrays = [moviesThriller, moviesHistory];
-  }
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(movieSearchProvider);
 
-  _loadFirstBatch() async {
-    if (movieArrays.isNotEmpty) {
-      await Future.delayed(const Duration(seconds: 1));
-      setState(() {
-        displayedMovies = List.from(movieArrays[0]);
-        currentArrayIndex = 0;
-        hasMoreData = movieArrays.length > 1;
-        isLoading = false;
-      });
-    }
-  }
-
-  _loadMoreMovies() async {
-    if (isLoading || !hasMoreData) return;
-
-    setState(() {
-      isLoading = true;
-    });
-
-    // 2 second delay
-    await Future.delayed(const Duration(seconds: 1));
-
-    setState(() {
-      currentArrayIndex++;
-      if (currentArrayIndex < movieArrays.length) {
-        displayedMovies.addAll(movieArrays[currentArrayIndex]);
-        hasMoreData = currentArrayIndex < movieArrays.length - 1;
-      } else {
-        hasMoreData = false;
-      }
-      isLoading = false;
-    });
+    return SafeArea(
+      top: false,
+      child: InfiniteMoviesList(
+        movies: state.movies,
+        onLoadMore: _onLoadMore,
+        isLoading: state.isLoading && state.query.isNotEmpty,
+        hasMoreData: state.hasMore,
+        header: _buildHeader(context),
+      ),
+    );
   }
 
   Widget _buildHeader(BuildContext context) {
@@ -74,6 +58,8 @@ class _MoviesSearchScreenState extends State<MoviesSearchScreen> {
           const AppText("What'd you like to watch?", kind: TextKind.heading),
           const SizedBox(height: 12),
           TextField(
+            controller: _controller,
+            onChanged: _onSearchChanged,
             decoration: InputDecoration(
               hintText: 'Search for movies...',
               prefixIcon: Icon(
@@ -81,35 +67,35 @@ class _MoviesSearchScreenState extends State<MoviesSearchScreen> {
                 color: Theme.of(context).primaryColor,
                 size: 28,
               ),
+              suffixIcon: IconButton(
+                onPressed: () {
+                  _controller.clear();
+                  _onSearchChanged('');
+                },
+                icon: Icon(
+                  Icons.close,
+                  color: Theme.of(context).primaryColor,
+                  size: 28,
+                ),
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
             ),
           ),
           const SizedBox(height: 12),
-          commonSearchesChip(context),
+          commonSearchesChip(context, _onSearchChanged),
           const SizedBox(height: 24),
         ],
       ),
     );
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      child: InfiniteMoviesList(
-        movies: displayedMovies,
-        onLoadMore: _loadMoreMovies,
-        isLoading: isLoading,
-        hasMoreData: hasMoreData,
-        header: _buildHeader(context),
-      ),
-    );
-  }
 }
 
-Widget commonSearchesChip(BuildContext context) {
+Widget commonSearchesChip(
+  BuildContext context,
+  void Function(String) onSearch,
+) {
   final List<String> searches = [
     "Comedy Movies",
     "Action Movies",
@@ -131,7 +117,7 @@ Widget commonSearchesChip(BuildContext context) {
         (index) => ActionChip(
           label: Text(searches[index]),
           onPressed: () {
-            print('Selected search: ${searches[index]}');
+            onSearch(searches[index]);
           },
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(4.0),

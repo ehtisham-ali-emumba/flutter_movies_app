@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies/data/models/movie.dart';
 import 'package:movies/presentation/views/movies/widgets/movie_card.dart';
-import 'package:movies/presentation/widgets/text.dart';
 
 class InfiniteMoviesList extends StatefulWidget {
   final List<Movie> movies;
@@ -52,14 +51,6 @@ class _InfiniteMoviesListState extends State<InfiniteMoviesList> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.movies.isEmpty && !widget.isLoading) {
-      return const AppText(
-        'No movies found.',
-        kind: TextKind.error,
-        fontSize: 18,
-      );
-    }
-
     return ListView.builder(
       controller: _scrollController,
       itemCount:

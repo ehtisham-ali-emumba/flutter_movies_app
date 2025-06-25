@@ -45,4 +45,25 @@ class MoviesRepository {
         .map<Movie>((json) => Movie.fromJson(json))
         .toList();
   }
+
+  Future<List<Movie>> searchMovies({
+    required String query,
+    int page = 1,
+    int limit = 20,
+  }) async {
+    final data = await apiClient.get(
+      '/search/movie',
+      queryParams: {
+        'language': 'en-US',
+        'query': query,
+        'page': page.toString(),
+        'include_adult': 'false',
+      },
+    );
+    final results = data['results'] as List<dynamic>;
+    return results
+        .take(limit)
+        .map<Movie>((json) => Movie.fromJson(json))
+        .toList();
+  }
 }

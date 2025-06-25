@@ -28,7 +28,7 @@ class MoviesTabScreen extends ConsumerWidget {
                 Tab(text: 'Search'),
               ],
             ),
-            body: TabBarView(children: [MoviesScreen(), MoviesSearchScreen()]),
+            body: TabBarView(children: [MoviesSearchScreen(), MoviesScreen()]),
           ),
         ),
       ),
