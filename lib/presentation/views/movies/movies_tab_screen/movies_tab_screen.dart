@@ -101,12 +101,9 @@ PreferredSizeWidget appHeader(BuildContext context, WidgetRef ref) {
       IconButton(
         icon: Icon(Icons.favorite_border),
         onPressed: () {
-          Navigator.of(context).push(
-            PageRouteBuilder(
-              pageBuilder: (_, __, ___) => FavouriteMoviesScreen(),
-              transitionDuration: Duration.zero,
-              reverseTransitionDuration: Duration.zero,
-            ),
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => FavouriteMoviesScreen()),
           );
         },
       ),
