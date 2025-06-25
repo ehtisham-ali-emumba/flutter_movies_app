@@ -48,7 +48,7 @@ class MoviesListing extends StatelessWidget {
           items: movies.map((movie) {
             return Padding(
               padding: EdgeInsetsGeometry.symmetric(horizontal: 5),
-              child: MovieCard(movie: movie),
+              child: MovieCard(movie: movie, heroId: '${title}_${movie.id}'),
             );
           }).toList(),
         ),

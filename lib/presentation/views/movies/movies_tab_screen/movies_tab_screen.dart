@@ -14,21 +14,63 @@ class MoviesTabScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final themeState = ref.watch(themeProvider);
+    final primaryColor = themeState.themeColor.toColor();
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
-      color: Colors.white,
+      color: isDarkMode ? Colors.black : Colors.white,
       child: SafeArea(
         top: false,
         child: DefaultTabController(
           length: 2,
           child: Scaffold(
             appBar: appHeader(context, ref),
-            bottomNavigationBar: TabBar(
-              tabs: [
-                Tab(text: 'Movies'),
-                Tab(text: 'Search'),
-              ],
-            ),
             body: TabBarView(children: [MoviesScreen(), MoviesSearchScreen()]),
+            bottomNavigationBar: Container(
+              decoration: BoxDecoration(
+                color: isDarkMode ? Color(0xFF1D1D1D) : Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 6,
+                    offset: Offset(0, -2),
+                  ),
+                ],
+              ),
+              child: BottomAppBar(
+                color: Colors.transparent,
+                padding: EdgeInsets.zero,
+                child: TabBar(
+                  dividerColor: Colors.transparent,
+                  splashFactory: NoSplash.splashFactory,
+                  overlayColor: WidgetStateProperty.all(Colors.transparent),
+                  labelStyle: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  unselectedLabelStyle: TextStyle(fontSize: 11),
+                  labelColor: primaryColor,
+                  unselectedLabelColor: isDarkMode
+                      ? Colors.grey
+                      : Colors.black45,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  indicatorWeight: 3,
+                  tabs: [
+                    Tab(
+                      icon: Icon(Icons.movie_creation_outlined, size: 26),
+                      text: 'Movies',
+                      iconMargin: EdgeInsets.only(bottom: 4),
+                    ),
+                    Tab(
+                      icon: Icon(Icons.search_rounded, size: 26),
+                      text: 'Search',
+                      iconMargin: EdgeInsets.only(bottom: 4),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
       ),

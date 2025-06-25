@@ -50,6 +50,7 @@ class _MoviesSearchScreenState extends ConsumerState<MoviesSearchScreen> {
         isLoading: state.isLoading && state.query.isNotEmpty,
         hasMoreData: state.hasMore,
         header: _buildHeader(context),
+        heroIdPrefix: 'search_',
       ),
     );
   }

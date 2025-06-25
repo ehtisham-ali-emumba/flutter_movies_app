@@ -8,10 +8,12 @@ class InfiniteMoviesList extends StatefulWidget {
   final bool isLoading;
   final bool hasMoreData;
   final Widget? header;
+  final String heroIdPrefix;
 
   const InfiniteMoviesList({
     super.key,
     required this.movies,
+    required this.heroIdPrefix,
     this.onLoadMore,
     this.isLoading = false,
     this.hasMoreData = true,
@@ -68,7 +70,10 @@ class _InfiniteMoviesListState extends State<InfiniteMoviesList> {
           return Container(
             height: 280,
             margin: const EdgeInsets.only(bottom: 16),
-            child: MovieCard(movie: movie),
+            child: MovieCard(
+              movie: movie,
+              heroId: '${widget.heroIdPrefix}_${movie.id}',
+            ),
           );
         } else {
           // Loader at the end

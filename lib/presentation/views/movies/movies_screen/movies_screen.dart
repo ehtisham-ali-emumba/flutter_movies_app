@@ -24,7 +24,12 @@ class MoviesScreen extends ConsumerWidget {
               carouselMoviesAsync.when(
                 data: (movies) => BaseCarousel(
                   items: movies
-                      .map((movie) => MovieCard(movie: movie))
+                      .map(
+                        (movie) => MovieCard(
+                          movie: movie,
+                          heroId: 'main_carousel_${movie.id}',
+                        ),
+                      )
                       .toList(),
                 ),
                 loading: () => const Center(child: CircularProgressIndicator()),

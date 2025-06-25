@@ -7,7 +7,13 @@ import 'package:movies/presentation/widgets/text.dart';
 
 class MovieDetailsScreen extends StatelessWidget {
   final Movie movie;
-  const MovieDetailsScreen({super.key, required this.movie});
+  final String heroId;
+
+  const MovieDetailsScreen({
+    super.key,
+    required this.movie,
+    required this.heroId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +27,7 @@ class MovieDetailsScreen extends StatelessWidget {
                 alignment: Alignment.center,
                 children: [
                   Hero(
-                    tag: movie.id,
+                    tag: heroId,
                     child: Image.network(
                       movie.imageUrl,
                       width: double.infinity,
@@ -183,8 +189,6 @@ class MovieDetailsScreen extends StatelessWidget {
     padding: const EdgeInsets.symmetric(horizontal: 6),
     child: Text('•', style: TextStyle(color: Colors.white)),
   );
-
-  TextStyle _metaTextStyle() => TextStyle(color: Colors.white70, fontSize: 13);
 
   Widget _actorCard(String name, String imagePath) {
     return Container(

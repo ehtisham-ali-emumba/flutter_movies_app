@@ -5,8 +5,9 @@ import 'package:movies/presentation/widgets/text.dart';
 
 class MovieCard extends StatelessWidget {
   final Movie movie;
+  final String heroId; // Optional hero ID for custom animations
 
-  const MovieCard({super.key, required this.movie});
+  const MovieCard({super.key, required this.movie, required this.heroId});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,8 @@ class MovieCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MovieDetailsScreen(movie: movie),
+            builder: (context) =>
+                MovieDetailsScreen(movie: movie, heroId: heroId),
           ),
         );
       },
@@ -39,7 +41,7 @@ class MovieCard extends StatelessWidget {
             children: [
               // Movie Poster - Hero Widget (will animate to small poster in details)
               Hero(
-                tag: movie.id, // Same tag as details screen
+                tag: heroId ?? movie.id, // Same tag as details screen
                 child: Image.network(
                   movie.imageUrl,
                   height: double.infinity,

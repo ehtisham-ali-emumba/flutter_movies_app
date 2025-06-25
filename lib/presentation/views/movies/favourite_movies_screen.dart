@@ -68,6 +68,7 @@ class FavouriteMoviesScreen extends ConsumerWidget {
                 isLoading: false,
                 hasMoreData: false,
                 header: _buildHeader(context),
+                heroIdPrefix: 'favourite_',
               ),
       ),
     );
