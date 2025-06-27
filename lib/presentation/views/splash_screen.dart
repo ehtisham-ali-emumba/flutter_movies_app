@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies/presentation/view_models/movies/movie_reviews_provider.dart';
 import 'package:movies/presentation/view_models/movies/movies_favorite_provider.dart';
 import 'package:movies/presentation/views/movies/movies_tab_screen/movies_tab_screen.dart';
 import 'package:movies/presentation/widgets/text.dart';
@@ -8,6 +9,8 @@ final intializationProvider = FutureProvider.autoDispose<void>((ref) async {
   ref.keepAlive();
   final favoritesNotifier = ref.read(favoritesProvider.notifier);
   await favoritesNotifier.loadMoviesFromSharedPreferences();
+  final movieReviewsNotifier = ref.read(movieReviewsProvider.notifier);
+  await movieReviewsNotifier.loadReviewsFromPrefs();
   await Future.delayed(const Duration(seconds: 3));
   await Future.microtask(() async {});
 });
