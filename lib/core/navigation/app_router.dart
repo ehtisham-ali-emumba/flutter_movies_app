@@ -48,25 +48,8 @@ class AppRouter {
     switch (routeName) {
       case Routes.splash:
         return const SplashScreen();
-
       case Routes.moviesTab:
         return const MoviesTabScreen();
-
-      case Routes.favoriteMovies:
-        return const FavouriteMoviesScreen();
-
-      case Routes.movieDetails:
-        final movie = arguments as Movie;
-        final heroId = arguments as String?;
-        return MovieDetailsScreen(movie: movie, heroId: heroId ?? '');
-
-      case Routes.rateMovieReview:
-        final movie = arguments as Movie;
-        return AddRateMovieScreen(
-          movieId: movie.id.toString(),
-          movieTitle: movie.title,
-        );
-
       default:
         return Scaffold(
           body: Center(child: Text('No route defined for $routeName')),
