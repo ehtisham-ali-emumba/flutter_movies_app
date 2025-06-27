@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies/presentation/view_models/movies/movies_carousel_provider.dart';
 import 'package:movies/presentation/widgets/base_carousel.dart';
 
-import '../../../view_models/movies/movies_carousel_provider.dart';
 import '../widgets/movie_card.dart';
-import 'widgets/movies_listing.dart';
+import 'movies_listing.dart';
 
 class MoviesScreen extends ConsumerWidget {
   const MoviesScreen({super.key});

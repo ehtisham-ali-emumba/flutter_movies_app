@@ -33,7 +33,6 @@ class FavouriteMoviesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final favoriteMovies = ref.watch(favoritesProvider).favoriteMovies;
-    print("favoriteMovies count: ${favoriteMovies.length}");
 
     return Scaffold(
       body: SafeArea(
