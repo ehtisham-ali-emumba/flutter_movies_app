@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:movies/core/providers/movie_api_client_provider.dart';
+import 'package:movies/core/di/locator.dart';
 import 'package:movies/data/models/movie.dart';
 import 'package:movies/data/repositories/movies_repository.dart';
 
@@ -74,7 +74,6 @@ class MovieSearchNotifier extends StateNotifier<MovieSearchState> {
 
 final movieSearchProvider =
     StateNotifierProvider<MovieSearchNotifier, MovieSearchState>((ref) {
-      final apiClient = ref.watch(movieApiClientProvider);
-      final repo = MoviesRepository(apiClient: apiClient);
+      final repo = locator<MoviesRepository>();
       return MovieSearchNotifier(repo);
     });
