@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies/core/di/index.dart';
+import 'package:movies/core/navigation/index.dart';
 import 'package:movies/presentation/view_models/movies/movie_reviews_provider.dart';
 import 'package:movies/presentation/view_models/movies/movies_favorite_provider.dart';
-import 'package:movies/presentation/views/movies/movies_tab_screen/movies_tab_screen.dart';
 import 'package:movies/presentation/widgets/text.dart';
 
 final intializationProvider = FutureProvider.autoDispose<void>((ref) async {
@@ -25,7 +26,12 @@ class SplashScreen extends ConsumerWidget {
       body: Center(
         child: initWatch.when(
           data: (_) {
-            return MoviesTabScreen();
+            Future.microtask(() {
+              locator<NavigationService>().replaceToWithoutAnimation(
+                Routes.moviesTab,
+              );
+            });
+            return Column(children: []);
           },
           error: (error, _) {
             return Column(
