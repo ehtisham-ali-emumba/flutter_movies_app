@@ -6,6 +6,7 @@ import 'package:movies/data/models/movie.dart';
 import 'package:movies/data/models/movie_review.dart';
 import 'package:movies/presentation/view_models/movies/movie_reviews_provider.dart';
 import 'package:movies/presentation/views/movies/add_rate_movie_screen.dart';
+import 'package:movies/presentation/widgets/custom_snackbar.dart';
 import 'package:movies/presentation/widgets/text.dart';
 
 class MovieReviews extends ConsumerWidget {
@@ -163,9 +164,7 @@ void _showDeleteReviewDialog(
                 .read(movieReviewsProvider.notifier)
                 .deleteReview(review.movieId, review.id);
             Navigator.pop(ctx);
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text('Review deleted')));
+            CustomSnackbar.show(context, 'Review deleted');
           },
           child: Text('Delete', style: TextStyle(color: Colors.red)),
         ),

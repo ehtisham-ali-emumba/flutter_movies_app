@@ -80,17 +80,13 @@ class _AddRateMovieScreenState extends ConsumerState<AddRateMovieScreen> {
             );
 
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Review added successfully!')),
-          );
+          CustomSnackbar.show(context, 'Review added successfully!');
 
           Navigator.pop(context);
         }
       } catch (e) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error adding review: ${e.toString()}')),
-          );
+          CustomSnackbar.show(context, 'Error adding review: ${e.toString()}');
         }
       } finally {
         if (mounted) {
