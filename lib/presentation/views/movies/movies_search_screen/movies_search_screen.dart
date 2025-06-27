@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies/presentation/view_models/movies/movie_search_provider.dart';
-import 'package:movies/presentation/views/movies/movies_search/search_header.dart';
+import 'package:movies/presentation/views/movies/movies_search_screen/search_header.dart';
 import 'package:movies/presentation/views/movies/widgets/infinite_movies_list.dart';
 
 class MoviesSearchScreen extends ConsumerStatefulWidget {

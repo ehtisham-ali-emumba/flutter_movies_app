@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies/core/enums/theme_enums.dart';
 import 'package:movies/presentation/view_models/theme/theme_provider.dart';
-import 'package:movies/presentation/views/movies/favourite_movies_screen.dart';
 import 'package:movies/presentation/views/movies/movies_screen/movies_screen.dart';
-import 'package:movies/presentation/views/movies/movies_search/movies_search_screen.dart';
-import 'package:movies/presentation/widgets/text.dart';
-
-import 'widgets/app_color_toggle.dart';
+import 'package:movies/presentation/views/movies/movies_search_screen/movies_search_screen.dart';
+import 'package:movies/presentation/views/movies/movies_tab_screen/app_header.dart';
 
 class MoviesTabScreen extends ConsumerWidget {
   const MoviesTabScreen({super.key});
@@ -25,7 +22,7 @@ class MoviesTabScreen extends ConsumerWidget {
         child: DefaultTabController(
           length: 2,
           child: Scaffold(
-            appBar: appHeader(context, ref),
+            appBar: AppHeader(context, ref),
             body: TabBarView(children: [MoviesScreen(), MoviesSearchScreen()]),
             bottomNavigationBar: Container(
               decoration: BoxDecoration(
@@ -76,37 +73,4 @@ class MoviesTabScreen extends ConsumerWidget {
       ),
     );
   }
-}
-
-PreferredSizeWidget appHeader(BuildContext context, WidgetRef ref) {
-  final themeState = ref.watch(themeProvider);
-  return AppBar(
-    title: AppText(
-      'MOVIES HOUSE',
-      kind: TextKind.doToFamily,
-      fontWeight: FontWeight.w900,
-      fontSize: 26,
-      color: themeState.themeColor.toColor(),
-    ),
-    actions: [
-      IconButton(
-        icon: Icon(
-          themeState.isDarkMode ? Icons.dark_mode : Icons.dark_mode_outlined,
-        ),
-        onPressed: () async {
-          await ref.read(themeProvider.notifier).toggleTheme();
-        },
-      ),
-      AppColorToggle(),
-      IconButton(
-        icon: Icon(Icons.favorite_border),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => FavouriteMoviesScreen()),
-          );
-        },
-      ),
-    ],
-  );
 }
