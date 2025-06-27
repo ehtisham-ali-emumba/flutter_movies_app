@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies/presentation/view_models/movies/movie_reviews_provider.dart';
-import 'package:movies/presentation/views/movies/widgets/ImagePicker.dart';
 import 'package:movies/presentation/widgets/custom_snackbar.dart';
+import 'package:movies/presentation/widgets/image_picker.dart';
 import 'package:movies/presentation/widgets/text.dart';
 
 class AddRateMovieScreen extends ConsumerStatefulWidget {

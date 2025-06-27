@@ -20,7 +20,6 @@ class _ImagepickerState extends State<Imagepicker> {
   @override
   void initState() {
     super.initState();
-    // Initialize with the prop from parent
     file = widget.initialImage;
   }
 
