@@ -7,7 +7,7 @@ import 'package:movies/presentation/view_models/movies/movie_reviews_provider.da
 import 'package:movies/presentation/view_models/movies/movies_favorite_provider.dart';
 import 'package:movies/presentation/widgets/text.dart';
 
-final intializationProvider = FutureProvider.autoDispose<void>((ref) async {
+final appIntializationProvider = FutureProvider.autoDispose<void>((ref) async {
   ref.keepAlive();
   final favoritesNotifier = ref.read(favoritesProvider.notifier);
   await favoritesNotifier.loadMoviesFromSharedPreferences();
@@ -22,7 +22,7 @@ class SplashScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final initWatch = ref.watch(intializationProvider);
+    final initWatch = ref.watch(appIntializationProvider);
     return Scaffold(
       body: Center(
         child: initWatch.when(
@@ -41,7 +41,7 @@ class SplashScreen extends ConsumerWidget {
                 AppText(error.toString(), kind: TextKind.error),
                 const SizedBox(height: 16),
                 TextButton(
-                  onPressed: () => ref.refresh(intializationProvider),
+                  onPressed: () => ref.refresh(appIntializationProvider),
                   child: const AppText(AppStrings.reloadApp),
                 ),
               ],
