@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies/core/constants/app_strings.dart';
 import 'package:movies/core/di/index.dart';
 import 'package:movies/core/navigation/index.dart';
 import 'package:movies/presentation/view_models/movies/movie_reviews_provider.dart';
@@ -41,7 +42,7 @@ class SplashScreen extends ConsumerWidget {
                 const SizedBox(height: 16),
                 TextButton(
                   onPressed: () => ref.refresh(intializationProvider),
-                  child: const AppText("Reload App"),
+                  child: const AppText(AppStrings.reloadApp),
                 ),
               ],
             );
@@ -52,7 +53,11 @@ class SplashScreen extends ConsumerWidget {
               children: const [
                 CircularProgressIndicator(),
                 SizedBox(height: 16),
-                AppText("Loading...", fontSize: 24, kind: TextKind.doToFamily),
+                AppText(
+                  AppStrings.loading,
+                  fontSize: 24,
+                  kind: TextKind.doToFamily,
+                ),
               ],
             );
           },

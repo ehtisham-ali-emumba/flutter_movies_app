@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies/core/constants/app_strings.dart';
 import 'package:movies/presentation/view_models/movies/movie_reviews_provider.dart';
 import 'package:movies/presentation/widgets/custom_snackbar.dart';
 import 'package:movies/presentation/widgets/image_picker.dart';
@@ -40,7 +41,7 @@ class _AddRateMovieScreenState extends ConsumerState<AddRateMovieScreen> {
             const SizedBox(width: 8),
             Expanded(
               child: AppText(
-                "Rate ${widget.movieTitle}",
+                "${AppStrings.rateMoviePrefix}${widget.movieTitle}",
                 kind: TextKind.heading,
                 fontSize: 22,
                 maxLines: 1,
@@ -61,7 +62,7 @@ class _AddRateMovieScreenState extends ConsumerState<AddRateMovieScreen> {
       });
 
       if (imageFilePath == null || imageFilePath!.isEmpty) {
-        CustomSnackbar.show(context, "Please select an image for your review.");
+        CustomSnackbar.show(context, AppStrings.selectAnImage);
         setState(() {
           _isSubmitting = false;
         });
@@ -80,7 +81,7 @@ class _AddRateMovieScreenState extends ConsumerState<AddRateMovieScreen> {
             );
 
         if (mounted) {
-          CustomSnackbar.show(context, 'Review added successfully!');
+          CustomSnackbar.show(context, AppStrings.reviewAddedSuccessfully);
 
           Navigator.pop(context);
         }
@@ -117,7 +118,7 @@ class _AddRateMovieScreenState extends ConsumerState<AddRateMovieScreen> {
                       children: [
                         // Star rating
                         AppText(
-                          'Your Rating',
+                          AppStrings.yourRating,
                           kind: TextKind.heading,
                           fontSize: 18,
                         ),
@@ -146,7 +147,7 @@ class _AddRateMovieScreenState extends ConsumerState<AddRateMovieScreen> {
 
                         // Name input
                         AppText(
-                          'Your Name',
+                          AppStrings.yourName,
                           kind: TextKind.heading,
                           fontSize: 18,
                         ),
@@ -154,7 +155,7 @@ class _AddRateMovieScreenState extends ConsumerState<AddRateMovieScreen> {
                         TextFormField(
                           controller: _nameController,
                           decoration: InputDecoration(
-                            hintText: 'Enter your name',
+                            hintText: AppStrings.enterYourName,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
@@ -164,7 +165,7 @@ class _AddRateMovieScreenState extends ConsumerState<AddRateMovieScreen> {
 
                         // Review input
                         AppText(
-                          'Your Review',
+                          AppStrings.yourReview,
                           kind: TextKind.heading,
                           fontSize: 18,
                         ),
@@ -172,7 +173,7 @@ class _AddRateMovieScreenState extends ConsumerState<AddRateMovieScreen> {
                         TextFormField(
                           controller: _reviewController,
                           decoration: InputDecoration(
-                            hintText: 'What did you think about the movie?',
+                            hintText: AppStrings.enterYourThoughts,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
@@ -181,7 +182,7 @@ class _AddRateMovieScreenState extends ConsumerState<AddRateMovieScreen> {
                           maxLines: 5,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter your review';
+                              return AppStrings.reviewCommentRequired;
                             }
                             return null;
                           },
@@ -209,7 +210,7 @@ class _AddRateMovieScreenState extends ConsumerState<AddRateMovieScreen> {
                             ),
                             child: _isSubmitting
                                 ? const CircularProgressIndicator()
-                                : const Text('Submit Review'),
+                                : const Text(AppStrings.reviewSubmit),
                           ),
                         ),
                         const SizedBox(height: 24),

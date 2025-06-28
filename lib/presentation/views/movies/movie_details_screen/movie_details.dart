@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movies/core/constants/app_constants.dart';
+import 'package:movies/core/constants/app_strings.dart';
 import 'package:movies/data/models/movie.dart';
 import 'package:movies/presentation/view_models/movies/movies_favorite_provider.dart';
 import 'package:movies/presentation/widgets/text.dart';
@@ -35,9 +36,9 @@ class MovieDetails extends ConsumerWidget {
                     children: [
                       AppText(movie.releaseDate, kind: TextKind.caption),
                       _dot(),
-                      AppText('18+', kind: TextKind.caption),
+                      AppText(AppStrings.adult18Plus, kind: TextKind.caption),
                       _dot(),
-                      AppText('TV Drama', kind: TextKind.caption),
+                      AppText(AppStrings.tvDrama, kind: TextKind.caption),
                     ],
                   ),
                   SizedBox(height: 12),
@@ -70,7 +71,7 @@ class MovieDetails extends ConsumerWidget {
         SizedBox(height: 12),
         AppText(movie.description, kind: TextKind.body),
         SizedBox(height: 24),
-        AppText('Star Cast', kind: TextKind.heading, fontSize: 20),
+        AppText(AppStrings.starCast, kind: TextKind.heading, fontSize: 20),
         SizedBox(height: 12),
 
         SizedBox(

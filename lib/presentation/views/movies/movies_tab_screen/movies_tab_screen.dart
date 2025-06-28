@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies/core/constants/app_strings.dart';
 import 'package:movies/core/enums/theme_enums.dart';
 import 'package:movies/presentation/view_models/theme/theme_provider.dart';
 import 'package:movies/presentation/views/movies/movies_screen/movies_screen.dart';
@@ -56,12 +57,12 @@ class MoviesTabScreen extends ConsumerWidget {
                   tabs: [
                     Tab(
                       icon: Icon(Icons.movie_creation_outlined, size: 26),
-                      text: 'Movies',
+                      text: AppStrings.moviesTab,
                       iconMargin: EdgeInsets.only(bottom: 4),
                     ),
                     Tab(
                       icon: Icon(Icons.search_rounded, size: 26),
-                      text: 'Search',
+                      text: AppStrings.search,
                       iconMargin: EdgeInsets.only(bottom: 4),
                     ),
                   ],

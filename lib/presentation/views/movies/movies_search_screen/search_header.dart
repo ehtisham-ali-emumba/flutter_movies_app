@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies/core/constants/app_strings.dart';
 import 'package:movies/core/utils/input_utils.dart';
 import 'package:movies/presentation/view_models/movies/movie_search_provider.dart';
 import 'package:movies/presentation/widgets/text.dart';
@@ -42,13 +43,13 @@ class _SearchHeaderState extends ConsumerState<SearchHeader> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const AppText("What'd you like to watch?", kind: TextKind.heading),
+          const AppText(AppStrings.searchHint, kind: TextKind.heading),
           const SizedBox(height: 12),
           TextField(
             controller: _controller,
             onChanged: _onSearchChanged,
             decoration: InputDecoration(
-              hintText: 'Search for movies...',
+              hintText: AppStrings.searchMoviesHint,
               prefixIcon: Icon(
                 Icons.search,
                 color: Theme.of(context).primaryColor,

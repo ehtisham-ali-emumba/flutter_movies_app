@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies/core/constants/app_strings.dart';
 import 'package:movies/presentation/view_models/movies/movies_carousel_provider.dart';
 import 'package:movies/presentation/widgets/base_carousel.dart';
 
@@ -33,21 +34,28 @@ class MoviesScreen extends ConsumerWidget {
                       .toList(),
                 ),
                 loading: () => const Center(child: CircularProgressIndicator()),
-                error: (e, _) => Center(child: Text('Failed to load movies')),
+                error: (e, _) =>
+                    Center(child: Text(AppStrings.failedToLoadMovies)),
               ),
               SizedBox(height: 20),
               carouselActionMoviesAsync.when(
-                data: (movies) =>
-                    MoviesListing(title: "Action Movies", movies: movies),
+                data: (movies) => MoviesListing(
+                  title: AppStrings.actionMovies,
+                  movies: movies,
+                ),
                 loading: () => Container(),
-                error: (e, _) => Center(child: Text('Failed to load movies')),
+                error: (e, _) =>
+                    Center(child: Text(AppStrings.failedToLoadMovies)),
               ),
               SizedBox(height: 20),
               carouselTopRatedMoviesAsync.when(
-                data: (movies) =>
-                    MoviesListing(title: "Top Rated Movies", movies: movies),
+                data: (movies) => MoviesListing(
+                  title: AppStrings.topRatedMovies,
+                  movies: movies,
+                ),
                 loading: () => Container(),
-                error: (e, _) => Center(child: Text('Failed to load movies')),
+                error: (e, _) =>
+                    Center(child: Text(AppStrings.failedToLoadMovies)),
               ),
             ],
           ),

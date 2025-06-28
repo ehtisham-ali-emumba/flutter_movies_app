@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies/core/constants/app_strings.dart';
 import 'package:movies/core/enums/theme_enums.dart';
 import 'package:movies/presentation/view_models/theme/theme_provider.dart';
 
@@ -12,7 +13,7 @@ class AppColorToggle extends ConsumerWidget {
 
     return IconButton(
       icon: Icon(Icons.color_lens, color: themeState.themeColor.toColor()),
-      tooltip: 'Change theme color',
+      tooltip: AppStrings.changeThemeColor,
       onPressed: () async {
         await _showColorPicker(context, ref);
       },
@@ -26,7 +27,7 @@ class AppColorToggle extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Select Theme Color'),
+          title: const Text(AppStrings.selectThemeColor),
           content: Wrap(
             spacing: 8.0,
             runSpacing: 8.0,
@@ -66,7 +67,7 @@ class AppColorToggle extends ConsumerWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
+              child: const Text(AppStrings.cancel),
             ),
           ],
         );

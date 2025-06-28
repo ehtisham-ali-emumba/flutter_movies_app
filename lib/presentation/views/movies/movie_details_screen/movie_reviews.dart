@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies/core/constants/app_strings.dart';
 import 'package:movies/data/models/movie.dart';
 import 'package:movies/data/models/movie_review.dart';
 import 'package:movies/presentation/view_models/movies/movie_reviews_provider.dart';
@@ -25,7 +26,7 @@ class MovieReviews extends ConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            AppText('Reviews', kind: TextKind.heading, fontSize: 20),
+            AppText(AppStrings.reviews, kind: TextKind.heading, fontSize: 20),
             ElevatedButton.icon(
               onPressed: () {
                 Navigator.push(
@@ -39,7 +40,7 @@ class MovieReviews extends ConsumerWidget {
                 );
               },
               icon: Icon(Icons.add),
-              label: Text('Add Review'),
+              label: Text(AppStrings.addReview),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primary,
                 foregroundColor: Colors.white,
@@ -53,7 +54,7 @@ class MovieReviews extends ConsumerWidget {
           const Center(child: CircularProgressIndicator())
         else if (reviews.isEmpty)
           AppText(
-            'No reviews yet.',
+            AppStrings.noReviews,
             kind: TextKind.body,
             color: Theme.of(context).colorScheme.onSurface,
           )
@@ -154,19 +155,22 @@ void _showDeleteReviewDialog(
   showDialog(
     context: context,
     builder: (ctx) => AlertDialog(
-      title: Text('Delete Review'),
-      content: Text('Are you sure you want to delete this review?'),
+      title: Text(AppStrings.deleteReview),
+      content: Text(AppStrings.areYouSureToDelete),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(ctx), child: Text('Cancel')),
+        TextButton(
+          onPressed: () => Navigator.pop(ctx),
+          child: Text(AppStrings.cancel),
+        ),
         TextButton(
           onPressed: () {
             ref
                 .read(movieReviewsProvider.notifier)
                 .deleteReview(review.movieId, review.id);
             Navigator.pop(ctx);
-            CustomSnackbar.show(context, 'Review deleted');
+            CustomSnackbar.show(context, AppStrings.reviewDeleted);
           },
-          child: Text('Delete', style: TextStyle(color: Colors.red)),
+          child: Text(AppStrings.delete, style: TextStyle(color: Colors.red)),
         ),
       ],
     ),

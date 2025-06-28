@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies/core/constants/app_strings.dart';
 import 'package:movies/core/enums/theme_enums.dart';
 import 'package:movies/presentation/view_models/theme/theme_provider.dart';
 import 'package:movies/presentation/views/movies/favourite_movies_screen.dart';
@@ -12,7 +13,7 @@ PreferredSizeWidget AppHeader(BuildContext context, WidgetRef ref) {
 
   return AppBar(
     title: AppText(
-      'MOVIES HOUSE',
+      AppStrings.moviesHouse,
       kind: TextKind.doToFamily,
       fontWeight: FontWeight.w900,
       fontSize: 26,

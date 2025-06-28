@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:movies/core/constants/app_strings.dart';
 import 'package:movies/presentation/view_models/movies/movies_favorite_provider.dart';
 import 'package:movies/presentation/views/movies/widgets/infinite_movies_list.dart';
 import 'package:movies/presentation/widgets/text.dart';
@@ -19,7 +20,7 @@ class FavouriteMoviesScreen extends ConsumerWidget {
             ),
             const SizedBox(width: 8),
             const AppText(
-              "What'd you like to watch?",
+              AppStrings.favoriteMovies,
               kind: TextKind.heading,
               fontSize: 22,
             ),
@@ -52,7 +53,7 @@ class FavouriteMoviesScreen extends ConsumerWidget {
                           ),
                           SizedBox(height: 16),
                           AppText(
-                            "No favorite movies yet",
+                            AppStrings.noFavoriteMovies,
                             kind: TextKind.caption,
                             fontSize: 16,
                           ),
