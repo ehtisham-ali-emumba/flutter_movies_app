@@ -13,8 +13,7 @@ final appIntializationProvider = FutureProvider.autoDispose<void>((ref) async {
   await favoritesNotifier.loadMoviesFromSharedPreferences();
   final movieReviewsNotifier = ref.read(movieReviewsProvider.notifier);
   await movieReviewsNotifier.loadReviewsFromPrefs();
-  await Future.delayed(const Duration(seconds: 3));
-  await Future.microtask(() async {});
+  await Future.delayed(const Duration(seconds: 2));
 });
 
 class SplashScreen extends ConsumerWidget {
