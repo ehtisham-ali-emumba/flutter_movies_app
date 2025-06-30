@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 
 class AppVideoPlayer extends StatefulWidget {
@@ -24,7 +23,6 @@ class _AppVideoPlayerState extends State<AppVideoPlayer>
     with WidgetsBindingObserver {
   late VideoPlayerController _controller;
   bool _showControls = true;
-  bool _isFullscreen = false;
   bool _isMuted = false;
   double _volume = 1.0;
   Timer? _hideTimer;
@@ -146,7 +144,7 @@ class _AppVideoPlayerState extends State<AppVideoPlayer>
     if (!widget.showControls) return;
     _hideTimer?.cancel();
     _hideTimer = Timer(const Duration(seconds: 4), () {
-      if (mounted && !_isFullscreen) setState(() => _showControls = false);
+      if (mounted) setState(() => _showControls = false);
     });
   }
 
@@ -209,34 +207,9 @@ class _AppVideoPlayerState extends State<AppVideoPlayer>
     });
   }
 
-  Future<void> _enterFullscreen() async {
-    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-    await SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-    ]);
-    setState(() => _isFullscreen = true);
-  }
-
-  Future<void> _exitFullscreen() async {
-    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    await SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-    setState(() => _isFullscreen = false);
-  }
-
   @override
   void dispose() {
     // Exit fullscreen mode if active when widget is disposed
-    if (_isFullscreen) {
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
-    }
 
     // Cancel any pending timers
     _hideTimer?.cancel();
@@ -286,6 +259,7 @@ class _AppVideoPlayerState extends State<AppVideoPlayer>
     final duration = _controller.value.duration;
 
     return Container(
+      // Full screen overlay with gradient background
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -305,11 +279,6 @@ class _AppVideoPlayerState extends State<AppVideoPlayer>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (_isFullscreen)
-                IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: _exitFullscreen,
-                ),
               const Spacer(),
               IconButton(
                 icon: Icon(
@@ -394,13 +363,6 @@ class _AppVideoPlayerState extends State<AppVideoPlayer>
                   _formatDuration(duration),
                   style: const TextStyle(color: Colors.white, fontSize: 12),
                 ),
-                IconButton(
-                  icon: Icon(
-                    _isFullscreen ? Icons.fullscreen_exit : Icons.fullscreen,
-                    color: Colors.white,
-                  ),
-                  onPressed: _isFullscreen ? _exitFullscreen : _enterFullscreen,
-                ),
               ],
             ),
           ),
@@ -424,22 +386,26 @@ class _AppVideoPlayerState extends State<AppVideoPlayer>
       return const Center(child: CircularProgressIndicator());
     }
 
+    // Use a Container with fixed constraints in fullscreen mode
     return GestureDetector(
       onTap: _onTapVideo,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          AspectRatio(
-            aspectRatio: _controller.value.aspectRatio,
-            child: VideoPlayer(_controller),
-          ),
-          if (widget.showControls)
-            AnimatedOpacity(
-              opacity: _showControls ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 300),
-              child: _buildControlsOverlay(),
+      child: Container(
+        color: Colors.black,
+        child: Stack(
+          fit: StackFit.passthrough,
+          children: [
+            AspectRatio(
+              aspectRatio: _controller.value.aspectRatio,
+              child: VideoPlayer(_controller),
             ),
-        ],
+            if (widget.showControls)
+              AnimatedOpacity(
+                opacity: _showControls ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 300),
+                child: Positioned.fill(child: _buildControlsOverlay()),
+              ),
+          ],
+        ),
       ),
     );
   }
