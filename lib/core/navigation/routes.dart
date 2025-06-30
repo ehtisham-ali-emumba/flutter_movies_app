@@ -7,5 +7,7 @@ class Routes {
 
   static const String rateMovieReview = '/rate-movie-review';
 
+  static const String moviePlayer = '/movie-player';
+
   static const String favoriteMovies = '/favorite_movies';
 }

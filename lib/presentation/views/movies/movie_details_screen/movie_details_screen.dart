@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies/data/models/movie.dart';
+import 'package:movies/presentation/views/movies/movie_player_screen/movie_player_screen.dart';
 
 import 'movie_details.dart';
 import 'movie_reviews.dart';
@@ -52,10 +53,20 @@ class MovieDetailsScreen extends StatelessWidget {
                   ),
 
                   // Play icon
-                  Icon(
-                    Icons.play_circle_fill,
-                    color: Theme.of(context).colorScheme.primary,
-                    size: 64,
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MoviePlayerScreen(),
+                        ),
+                      );
+                    },
+                    icon: Icon(
+                      Icons.play_circle_fill,
+                      color: Theme.of(context).colorScheme.primary,
+                      size: 64,
+                    ),
                   ),
                   Positioned(
                     top: 16,

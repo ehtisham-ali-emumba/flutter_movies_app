@@ -3,6 +3,7 @@ import 'package:movies/data/models/movie.dart';
 import 'package:movies/presentation/views/movies/add_rate_movie_screen.dart';
 import 'package:movies/presentation/views/movies/favourite_movies_screen.dart';
 import 'package:movies/presentation/views/movies/movie_details_screen/movie_details_screen.dart';
+import 'package:movies/presentation/views/movies/movie_player_screen/movie_player_screen.dart';
 import 'package:movies/presentation/views/movies/movies_tab_screen/movies_tab_screen.dart';
 import 'package:movies/presentation/views/splash_screen.dart';
 
@@ -26,6 +27,9 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => MovieDetailsScreen(movie: movie, heroId: heroId),
         );
+
+      case Routes.moviePlayer:
+        return MaterialPageRoute(builder: (_) => MoviePlayerScreen());
 
       case Routes.rateMovieReview:
         final movieId = settings.arguments as String;

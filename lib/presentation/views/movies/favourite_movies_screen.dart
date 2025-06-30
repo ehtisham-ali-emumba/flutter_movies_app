@@ -8,39 +8,19 @@ import 'package:movies/presentation/widgets/text.dart';
 class FavouriteMoviesScreen extends ConsumerWidget {
   const FavouriteMoviesScreen({super.key});
 
-  Widget _buildHeader(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            const SizedBox(width: 8),
-            const AppText(
-              AppStrings.favoriteMovies,
-              kind: TextKind.heading,
-              fontSize: 22,
-            ),
-          ],
-        ),
-        const SizedBox(height: 24),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final favoriteMovies = ref.watch(favoritesProvider).favoriteMovies;
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        title: AppText(AppStrings.favoriteMovies, fontSize: 22),
+      ),
       body: SafeArea(
         child: favoriteMovies.isEmpty
             ? Column(
                 children: [
-                  _buildHeader(context),
                   const Expanded(
                     child: Center(
                       child: Column(
@@ -67,7 +47,6 @@ class FavouriteMoviesScreen extends ConsumerWidget {
                 movies: favoriteMovies,
                 isLoading: false,
                 hasMoreData: false,
-                header: _buildHeader(context),
                 heroIdPrefix: 'favourite_',
               ),
       ),

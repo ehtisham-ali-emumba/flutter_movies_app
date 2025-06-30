@@ -102,15 +102,21 @@ class _AddRateMovieScreenState extends ConsumerState<AddRateMovieScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        title: AppText(
+          "${AppStrings.rateMoviePrefix}${widget.movieTitle}",
+          fontSize: 22,
+        ),
+      ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.all(16),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildHeader(context),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(
