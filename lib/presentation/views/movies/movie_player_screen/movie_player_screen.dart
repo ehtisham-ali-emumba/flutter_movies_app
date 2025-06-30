@@ -65,7 +65,7 @@ class _MoviePlayerScreenState extends State<MoviePlayerScreen> {
           boxShadow: [
             if (isActive)
               BoxShadow(
-                color: Color.fromRGBO(255, 0, 0, 0.1),
+                color: Color.fromRGBO(0, 0, 0, 0.1),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -83,7 +83,7 @@ class _MoviePlayerScreenState extends State<MoviePlayerScreen> {
                   child: Image.network(
                     episode.thumbnailUrl,
                     width: 100,
-                    height: 60,
+                    height: 82,
                     fit: BoxFit.cover,
                   ),
                 ),
