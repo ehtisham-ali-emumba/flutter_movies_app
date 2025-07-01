@@ -14,4 +14,9 @@ class Episode {
     required this.duration,
     this.isPlaying = false,
   });
+
+  @override
+  String toString() {
+    return 'Episode(title: $title, description: $description, thumbnailUrl: $thumbnailUrl, videoUrl: $videoUrl, duration: $duration, isPlaying: $isPlaying)';
+  }
 }
